@@ -6,7 +6,7 @@ import heroImage from '../../assets/hero.png'
 function Herosection() {
   return (
     <section className="bg-[#faf9f6]">
-      <div className="mx-auto grid min-h-[650px] max-w-[1600px] grid-cols-1 items-center gap-10 px-6 py-12 md:px-12 lg:grid-cols-2 lg:gap-16 lg:py-16">
+      <div className="mx-auto grid min-h-162.5 max-w-[1600px] grid-cols-1 items-center gap-10 px-6 py-12 md:px-12 lg:grid-cols-2 lg:gap-16 lg:py-16">
 
         {/* Left: Editorial Content */}
         <div className="flex flex-col items-start justify-center">
@@ -40,7 +40,7 @@ function Herosection() {
         </div>
 
         {/* Right: Hero Image */}
-        <div className="relative h-[420px] overflow-hidden md:h-[550px] lg:h-[620px]">
+        <div className="relative h-105 overflow-hidden md:h-137.5 lg:h-155">
           <img
             src={heroImage}
             alt="Novella Atelier editorial collection"

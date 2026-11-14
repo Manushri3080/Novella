@@ -2,10 +2,8 @@
 import { Link, Route, Routes } from 'react-router'
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Footer'
+import Home from './pages/Home/Home'
 
-function Home() {
-  return <h1>Welcome to Novella Atelier</h1>
-}
 
 function PlaceholderPage({ title }) {
   return <h1>{title} Page - Coming Soon</h1>

@@ -1,58 +1,86 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import API from "../../services/api";
 
-import { Link } from 'react-router'
-import { ArrowUpRight } from 'lucide-react'
-import secondImage from '../../assets/hero12.jpg'
+export default function EditorialBreak() {
+  const [promoData, setPromoData] = useState({
+    eyebrow: "Exclusive Privilege",
+    title: "Enjoy 10% Off Your First Order",
+    code: "WELCOME10",
+    subtext: "Use code WELCOME10 at checkout to unlock your introductory savings. Enjoy complimentary white-glove shipping on your first purchase.",
+    image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=1600&q=85",
+    linkText: "Shop the Collection",
+    linkPath: "/shop"
+  });
 
-function EditorialBreak() {
+  useEffect(() => {
+    const fetchPromo = async () => {
+      try {
+        const res = await API.get("/cms/home_editorial_promo");
+        if (res.data) {
+          setPromoData({
+            eyebrow: res.data.eyebrow || "Exclusive Privilege",
+            title: res.data.title || "Enjoy 10% Off Your First Order",
+            code: res.data.code || "WELCOME10",
+            subtext: res.data.subtext || "Use code WELCOME10 at checkout to unlock your introductory savings. Enjoy complimentary white-glove shipping on your first purchase.",
+            image: res.data.image || "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=1600&q=85",
+            linkText: res.data.linkText || "Shop the Collection",
+            linkPath: res.data.linkPath || "/shop"
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load CMS editorial promo settings:", err);
+      }
+    };
+    fetchPromo();
+  }, []);
+
   return (
-    <section className="bg-[#eae6dd] px-6 py-20 md:px-12 md:py-28">
-      <div className="mx-auto grid max-w-[1600px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+    <section className="bg-surface py-16 md:py-20 border-y border-border">
+      <div className="px-[clamp(1.5rem,5vw,4rem)]">
+        <div className="grid lg:grid-cols-2 gap-0 border border-border overflow-hidden">
 
-        {/* Editorial Image */}
-        <div className="relative h-105 overflow-hidden md:h-150">
-          <img
-            src={secondImage}
-            alt="A glimpse into the Novella design philosophy"
-            className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-          />
+          <div className="relative h-[320px] lg:h-auto lg:min-h-[440px] overflow-hidden">
+            <img
+              src={promoData.image}
+              alt="Refined interior by Novella"
+              className="absolute inset-0 w-full h-full object-cover object-[center_40%] brightness-[0.92] saturate-[0.95]"
+            />
+          </div>
 
-          <div className="absolute bottom-5 left-5 border border-white/70 px-4 py-3 text-[9px] tracking-[0.25em] text-white">
-            THE NOVELLA JOURNAL
+          <div className="flex flex-col justify-center bg-background px-8 md:px-12 py-12 lg:py-16">
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className="block w-5 h-px bg-bronze" />
+              <span className="font-body font-normal text-[0.55rem] tracking-[0.38em] uppercase text-bronze">
+                {promoData.eyebrow}
+              </span>
+            </div>
+
+            <h2 className="font-display font-light text-[clamp(1.8rem,4vw,2.8rem)] text-ink m-0 leading-[1.1] tracking-[-0.01em]">
+              {promoData.title}
+            </h2>
+
+            <p className="font-body font-light text-[0.88rem] text-muted mt-5 mb-8 max-w-md leading-[1.8] tracking-[0.03em] m-0">
+              {promoData.subtext}
+            </p>
+
+            <Link
+              to={promoData.linkPath}
+              className="no-underline inline-flex items-center gap-3 self-start group"
+            >
+              <span className="font-body font-medium text-[0.62rem] tracking-[0.22em] uppercase bg-ink text-cream-muted px-7 py-3.5 transition-colors duration-300 group-hover:bg-gold group-hover:text-dark">
+                {promoData.linkText}
+              </span>
+              <svg
+                width="18" height="8" viewBox="0 0 18 8" fill="none"
+                className="text-bronze transition-transform duration-300 group-hover:translate-x-1"
+              >
+                <path d="M0 4H16M13 1L16 4L13 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
         </div>
-
-        {/* Editorial Content */}
-        <div className="flex flex-col items-start lg:py-12">
-          <p className="mb-7 text-[10px] tracking-[0.3em] text-stone-500">
-            BEYOND THE ORDINARY
-          </p>
-
-          <h2 className="max-w-xl font-serif text-5xl leading-[1.2] text-[#292720] md:text-6xl">
-            A home is more
-            <span className="block italic text-stone-500">
-              than a place.
-            </span>
-            <span className="block">It's a feeling.</span>
-          </h2>
-
-          <p className="mt-8 max-w-md text-sm leading-8 text-stone-600 md:text-base">
-            We believe the spaces we live in should reflect the stories
-            we carry. Every object, every texture, and every detail has
-            the power to make a space feel uniquely yours.
-          </p>
-
-          <Link
-            to="/about"
-            className="group mt-10 inline-flex items-center gap-4 border-b border-stone-800 pb-3 text-[11px] tracking-[0.2em] text-stone-800 transition-all duration-300 hover:gap-6"
-          >
-            DISCOVER OUR STORY
-            <ArrowUpRight size={16} />
-          </Link>
-        </div>
-
       </div>
     </section>
-  )
+  );
 }
-
-export default EditorialBreak
